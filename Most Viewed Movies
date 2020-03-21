@@ -1,0 +1,28 @@
+library(ggplot2)
+movie_views <- colCounts(ratingMatrix) # count views for each movie
+table_views <- data.frame(movie = names(movie_views),
+                          views = movie_views) # create dataframe of views
+table_views <- table_views[order(table_views$views,
+                                 decreasing = TRUE), ] # sort by number of views
+table_views$title <- NA
+for (index in 1:10325){
+  table_views[index,3] <- as.character(subset(movie_data,
+                                         movie_data$movieId == table_views[index,1])$title)
+}
+table_views[1:6,]
+
+
+# Visualize plot bar for the total number of views using ggplot2.
+
+library(ggplot2)
+movie_views <- colCounts(ratingMatrix) # count views for each movie
+table_views <- data.frame(movie = names(movie_views),
+                          views = movie_views) # create dataframe of views
+table_views <- table_views[order(table_views$views,
+                                 decreasing = TRUE), ] # sort by number of views
+table_views$title <- NA
+for (index in 1:10325){
+  table_views[index,3] <- as.character(subset(movie_data,
+                                         movie_data$movieId == table_views[index,1])$title)
+}
+table_views[1:6,]
