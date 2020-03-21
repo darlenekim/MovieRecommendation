@@ -1,0 +1,13 @@
+setwd("/home/darlenekim/data/movie_data")    
+movie_data <- read.csv("movies.csv",stringsAsFactors=FALSE)
+rating_data <- read.csv("ratings.csv")
+str(movie_data)
+
+# Print first 6 lines of movies 
+summary(movie_data) 
+
+head(movie_data)
+
+summary(rating_data) 
+
+head(rating_data) 
