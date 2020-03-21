@@ -1,0 +1,48 @@
+library(recommenderlab)
+library(ggplot2)                     
+library(data.table)
+library(reshape2)
+
+## Retrieving data
+
+setwd("/home/dataflair/data/movie_data")                 
+movie_data <- read.csv("movies.csv",stringsAsFactors=FALSE)
+rating_data <- read.csv("ratings.csv")
+str(movie_data)
+
+## Overview the summary of the movies using the summary() function. Head() function to print the first six lines of movie_data.
+
+head(movie_data) 
+
+## Output the summary as well as the first six lines of the ‘rating_data’ dataframe 
+
+summary(rating_data)   
+head(rating_data)
+
+## Data Pre-processing
+## userId column and the movieId column, consist of integers. We need to convert the genres present in the movie_data dataframe into a more usable format by the users. Need to create a one-hot encoding to create a matrix that comprises of corresponding genres for each of the films.
+
+movie_genre <- as.data.frame(movie_data$genres, stringsAsFactors=FALSE)
+library(data.table)
+movie_genre2 <- as.data.frame(tstrsplit(movie_genre[,1], '[|]', 
+                                   type.convert=TRUE), 
+                         stringsAsFactors=FALSE) 
+colnames(movie_genre2) <- c(1:10)
+list_genre <- c("Action", "Adventure", "Animation", "Children", 
+                "Comedy", "Crime","Documentary", "Drama", "Fantasy",
+                "Film-Noir", "Horror", "Musical", "Mystery","Romance",
+                "Sci-Fi", "Thriller", "War", "Western")
+genre_mat1 <- matrix(0,10330,18)
+genre_mat1[1,] <- list_genre
+colnames(genre_mat1) <- list_genre
+for (index in 1:nrow(movie_genre2)) {
+  for (col in 1:ncol(movie_genre2)) {
+    gen_col = which(genre_mat1[1,] == movie_genre2[index,col])
+    genre_mat1[index+1,gen_col] <- 1
+}
+}
+genre_mat2 <- as.data.frame(genre_mat1[-1,], stringsAsFactors=FALSE) #remove first row, which was the genre list
+for (col in 1:ncol(genre_mat2)) {
+  genre_mat2[,col] <- as.integer(genre_mat2[,col]) #convert from characters to integers
+} 
+str(genre_mat2)
