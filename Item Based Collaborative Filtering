@@ -1,0 +1,26 @@
+recommendation_model$IBCF_realRatingMatrix$parameters
+
+#Exploring Similar Data
+
+similarity_mat <- similarity(ratingMatrix[1:4, ],
+                               method = "cosine",
+                               which = "users")
+as.matrix(similarity_mat)
+image(as.matrix(similarity_mat), main = "User's Similarities")
+
+# Delineate the similarity that is shared between the films
+
+movie_similarity <- similarity(ratingMatrix[, 1:4], method =
+                                 "cosine", which = "items")
+as.matrix(movie_similarity)
+image(as.matrix(movie_similarity), main = "Movies similarity")
+
+# Most Unique Ratings
+
+rating_values <- as.vector(ratingMatrix@data)
+unique(rating_values) # extracting unique ratings
+
+# Create Table of Unique Ratings
+
+Table_of_Ratings <- table(rating_values) # creating a count of movie ratings
+Table_of_Ratings
